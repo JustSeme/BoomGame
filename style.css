@@ -1,0 +1,40 @@
+body {
+    background: black;
+    font-family: 'Permanent Marker', cursive;
+    color: red;
+}
+
+#firstDiv {
+    text-align: center;
+    margin-top: 350px;
+    font-size: 32px;
+}
+
+h1 {
+    font-size: 64px;
+}
+
+button {
+    padding: 10px;
+    margin: 10px;
+    background: #231e1e;
+    color: red;
+    font-size: 32px;
+}
+
+#canvas {
+    display: flex;
+    border: 3px solid #20262d;
+}
+  
+.pixel {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #333a48;
+    background-color: #ffffff;
+}
+
+.main {
+    width: 294px;
+    margin: 0 auto;
+}
