@@ -29,32 +29,25 @@ function explode() {
 
 function createPanel() {
     defuseBtn.onclick = null
-    explode()
-    for(let i = 0; i < 9; i++) {
+    //explode()
+    for(let i = 0; i < 5; i++) {
         pixelElem.appendChild(document.createElement('div')).className = 'pixel'
     }
 
-    let count = 0
     const startDefuse = () => {
-        randomInt = getRandomInt(9)
+        randomInt = getRandomInt(5)
         let pixels = document.getElementsByClassName('pixel')
         pixels[randomInt].onclick = null
         pixels[randomInt].style.backgroundColor = 'white'
-        count++
-        for(let i = 0; i < 9; i++) {
-            if(i % 2 != 0) {
-                if(pixels[i].style.backgroundColor === 'green') {
-                    console.log('hello')
-                    mainText.textContent = 'The bomb was defused'
-                }
-            }
+        if(pixels[0].style.backgroundColor === 'green' && pixels[2].style.backgroundColor === 'green' && pixels[4].style.backgroundColor === 'green' && pixels[1].style.backgroundColor === 'white' && pixels[3].style.backgroundColor === 'white') {
+            mainText.textContent = 'The bomb was defused'
         }
         greenSquare(randomInt)
     }
     
     const greenSquare = () => {
         let pixels = document.getElementsByClassName('pixel')
-        let randomInt = getRandomInt(9)
+        let randomInt = getRandomInt(5)
         pixels[randomInt].style.backgroundColor = 'green'
         pixels[randomInt].onclick = startDefuse
         
