@@ -34,6 +34,10 @@ button {
     background-color: #ffffff;
 }
 
+.pixel.green {
+    background-color: green;
+}
+
 .main {
     width: 150px;
     margin: 0 auto;
