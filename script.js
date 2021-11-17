@@ -4,20 +4,33 @@ const pixelElem = document.getElementById('canvas')
 const defuseBtn = document.getElementById('defuse')
 const explodeBtn = document.getElementById('explode')
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
+const cubes = [
+    {id:0, clicked: false},
+    {id:1, clicked: false},
+    {id:2, clicked: false},
+    {id:3, clicked: false},
+    {id:4, clicked: false}
+  ]
+
+function getRandomInt() {
+    const newCubes = cubes.filter(cube => cube.clicked === false).map(cubes => cubes.id)
+    return newCubes[Math.floor(Math.random() * newCubes.length)]
 }
 
+let exploding = true
 function explode() {
     explodeBtn.onclick = null
+    defuseBtn.onclick = null
     function* counter() {
         for(let i = 10; i > -1; i--) {
             display.textContent = i
             yield
-            if(i === 1) {
+            if(i === 0 && exploding) {
                 mainText.textContent = 'BOOM'
                 document.body.style.cssText = 'background-image: url(boom.gif)'
-                defuseBtn = null
+            } else if(!exploding) {
+                mainText.textContent = 'Complete. You defused the bomb'
+                document.body.style.cssText = 'background-image: url(complete.jpg)'
             }
         }
     }
@@ -29,33 +42,34 @@ function explode() {
 
 function createPanel() {
     defuseBtn.onclick = null
-    //explode()
+    explodeBtn.onclick = null
+    explode()
     for(let i = 0; i < 5; i++) {
         pixelElem.appendChild(document.createElement('div')).className = 'pixel'
     }
-
-    const startDefuse = () => {
-        randomInt = getRandomInt(5)
-        let pixels = document.getElementsByClassName('pixel')
-        pixels[randomInt].onclick = null
-        pixels[randomInt].style.backgroundColor = 'white'
-        if(pixels[0].style.backgroundColor === 'green' && pixels[2].style.backgroundColor === 'green' && pixels[4].style.backgroundColor === 'green' && pixels[1].style.backgroundColor === 'white' && pixels[3].style.backgroundColor === 'white') {
-            mainText.textContent = 'The bomb was defused'
-        }
-        greenSquare(randomInt)
-    }
     
+    let pixels = document.getElementsByClassName('pixel')
     const greenSquare = () => {
-        let pixels = document.getElementsByClassName('pixel')
-        let randomInt = getRandomInt(5)
-        pixels[randomInt].style.backgroundColor = 'green'
-        pixels[randomInt].onclick = startDefuse
+        const cubesClicked = cubes.filter(cube => cube.clicked === true).map(cubes => cubes.id)
+        if (cubesClicked.length === 5) completeDefuse()
+        const randomInt = getRandomInt(5)
+        pixels[randomInt].classList.add('green')
+        pixels[randomInt].onclick = startDefuse = () => {
+            cubes.forEach((cube) => {
+                if(randomInt === cube.id) cube.clicked = true
+            })
+            pixels[randomInt].onclick = null
+            pixels[randomInt].onclick = pixels[randomInt].classList.remove('green')
+            greenSquare()
+        }
         
     }
     greenSquare()
-    
 }
 
+function completeDefuse() {
+    exploding = false
+}
 
 explodeBtn.onclick = explode
 defuseBtn.onclick = createPanel
